@@ -12,10 +12,7 @@ app.use(bodyParser.json());
 
 // MongoDB Connection
 const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo_db';
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(mongoURI);
 
 // Schema and Models
 const todoSchema = new mongoose.Schema({
