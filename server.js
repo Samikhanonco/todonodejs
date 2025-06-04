@@ -120,7 +120,10 @@ app.delete('/completedtasks/:id', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the Todo API!');
+  res.status(200).send('Landing page for Todo API');
+});
+app.get('/about', (req, res) => {
+  res.status(200).send('About Page for Todo API');
 });
 
 app.listen(PORT, '0.0.0.0', () => {
