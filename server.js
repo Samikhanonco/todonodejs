@@ -2,17 +2,24 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB Connection
-const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/todo_db';
+const mongoURI = process.env.MONGODB_URI;
+if (!mongoURI) {
+  throw new Error('MONGODB_URI environment variable is not set!');
+}
 mongoose.connect(mongoURI);
+mongoose.connection.on('connected', () => {
+  console.log('Connected to MongoDB');
+});
 
 // Schema and Models
 const todoSchema = new mongoose.Schema({
@@ -112,7 +119,10 @@ app.delete('/completedtasks/:id', async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.get('/', (req, res) => {
+  res.send('Welcome to the Todo API!');
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running at http://0.0.0.0:${PORT}`);
 });
